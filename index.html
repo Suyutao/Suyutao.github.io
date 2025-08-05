@@ -1,13 +1,588 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>宇韬的赛博花园</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宇韬的赛博花园 - 苏宇韬的个人网站</title>
+    <meta name="description" content="苏宇韬的个人网站 - 在AI时代，成为思想者、设计者、叙事者和品味者">
+    <meta name="keywords" content="苏宇韬,个人网站,AI时代,Swift开发,系统思维,高中生">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="宇韬的赛博花园">
+    <meta property="og:description" content="苏宇韬的个人网站 - 在AI时代，成为思想者、设计者、叙事者和品味者">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://suyutao.github.io">
+    
+    <!-- 样式 -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: #0a0a0a;
+            --foreground: #fafafa;
+            --muted: #f1f5f9;
+            --muted-foreground: #64748b;
+            --border: #e2e8f0;
+            --card: #ffffff;
+            --card-foreground: #0f172a;
+            --primary: #3b82f6;
+            --primary-foreground: #ffffff;
+            --secondary: #f1f5f9;
+            --secondary-foreground: #0f172a;
+            --accent: #8b5cf6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 导航 */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--foreground);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* 英雄区域 */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 50px;
+            color: #3b82f6;
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--muted-foreground);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            color: var(--muted-foreground);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .badges {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            background: rgba(241, 245, 249, 0.1);
+            border: 1px solid rgba(241, 245, 249, 0.2);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--foreground);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* 统计区域 */
+        .stats {
+            padding: 80px 0;
+            background: rgba(241, 245, 249, 0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1rem;
+            color: var(--primary);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--foreground);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--muted-foreground);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-description {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            opacity: 0.8;
+        }
+
+        /* 价值观区域 */
+        .values {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.25rem;
+            color: var(--muted-foreground);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .value-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .value-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .value-icon {
+            width: 40px;
+            height: 40px;
+            color: var(--primary);
+        }
+
+        .value-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .value-description {
+            color: var(--muted-foreground);
+            line-height: 1.6;
+        }
+
+        /* CTA区域 */
+        .cta {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(236, 72, 153, 0.1) 100%);
+        }
+
+        /* 页脚 */
+        .footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--muted-foreground);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* 动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航 -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-container">
+                <div class="nav-logo">宇韬的赛博花园</div>
+                <ul class="nav-links">
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#projects">项目</a></li>
+                    <li><a href="#thoughts">思考</a></li>
+                    <li><a href="#skills">技能</a></li>
+                    <li><a href="#contact">联系</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-badge fade-in-up">
+                <span>🌱 正在经历认知跃迁</span>
+            </div>
+            <h1 class="hero-title fade-in-up">宇韬的赛博花园</h1>
+            <p class="hero-subtitle fade-in-up">在AI时代，成为思想者、设计者、叙事者和品味者</p>
+            <p class="hero-description fade-in-up">
+                我是苏宇韬，一名2009年出生的高中生，正在经历认知跃迁的关键时期。
+                我相信，当AI能写80%的代码时，我们最宝贵的价值在于设计蓝图、雕琢细节、注入灵魂。
+                我不只是一个开发者，更是一个系统思考者和产品设计师。
+            </p>
+            <div class="badges fade-in-up">
+                <span class="badge">INTJ-A</span>
+                <span class="badge">2009年生</span>
+                <span class="badge">江苏苏州</span>
+                <span class="badge">Swift开发者</span>
+                <span class="badge">系统思维</span>
+            </div>
+            <div class="cta-buttons fade-in-up">
+                <a href="#projects" class="btn btn-primary">
+                    查看我的项目
+                    <span>→</span>
+                </a>
+                <a href="#thoughts" class="btn btn-outline">阅读我的思考</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 统计区域 -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-value">470→504</div>
+                    <div class="stat-label">成绩提升</div>
+                    <div class="stat-description">高一期末突破</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-value">4+</div>
+                    <div class="stat-label">GitHub Stars</div>
+                    <div class="stat-description">TheDreamer项目</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="stat-icon">💻</div>
+                    <div class="stat-value">Swift</div>
+                    <div class="stat-label">主要技术栈</div>
+                    <div class="stat-description">iOS原生开发</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value">INTJ-A</div>
+                    <div class="stat-label">人格类型</div>
+                    <div class="stat-description">系统设计思维</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 价值观区域 -->
+    <section class="values">
+        <div class="container">
+            <h2 class="section-title fade-in-up">核心价值观</h2>
+            <p class="section-subtitle fade-in-up">这些理念指导着我的学习、开发和思考方式</p>
+            <div class="values-grid">
+                <div class="value-card fade-in-up">
+                    <div class="value-header">
+                        <div class="value-icon">🧠</div>
+                        <h3 class="value-title">系统思维</h3>
+                    </div>
+                    <p class="value-description">
+                        拥有天然的系统设计者思维，倾向于构建完整系统而非零碎解决问题
+                    </p>
+                </div>
+                <div class="value-card fade-in-up">
+                    <div class="value-header">
+                        <div class="value-icon">🎯</div>
+                        <h3 class="value-title">Apple哲学</h3>
+                    </div>
+                    <p class="value-description">
+                        深受Apple设计哲学影响，追求清晰、简洁、内容为主、人本设计
+                    </p>
+                </div>
+                <div class="value-card fade-in-up">
+                    <div class="value-header">
+                        <div class="value-icon">💡</div>
+                        <h3 class="value-title">AI时代思考</h3>
+                    </div>
+                    <p class="value-description">
+                        认为AI是"新相机"，人类价值在于成为"摄影师"而非"代码工人"
+                    </p>
+                </div>
+                <div class="value-card fade-in-up">
+                    <div class="value-header">
+                        <div class="value-icon">👥</div>
+                        <h3 class="value-title">开源精神</h3>
+                    </div>
+                    <p class="value-description">
+                        TheDreamer永不商业化，相信技术应该服务于人，而不是相反
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA区域 -->
+    <section class="cta">
+        <div class="container">
+            <h2 class="section-title fade-in-up">一起探索AI时代的可能性</h2>
+            <p class="section-subtitle fade-in-up">
+                从学习成长到产品开发，从技术思考到人文关怀，
+                让我们一起在这个快速变化的时代中找到属于自己的位置。
+            </p>
+            <div class="cta-buttons">
+                <a href="mailto:your.email@example.com" class="btn btn-primary">联系我</a>
+                <a href="https://github.com/Suyutao/TheDreamer" target="_blank" rel="noopener noreferrer" class="btn btn-outline">查看TheDreamer</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://github.com/Suyutao" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="mailto:your.email@example.com">Email</a>
+                <a href="#home">回到顶部</a>
+            </div>
+            <p>&copy; 2024 宇韬的赛博花园. 由学生，为学生.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有需要动画的元素
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
 </html>
