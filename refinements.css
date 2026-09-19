@@ -1,0 +1,62 @@
+.project-featured:hover {
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 0;
+  background: color-mix(in srgb, var(--paper) 68%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(125%);
+  backdrop-filter: blur(18px) saturate(125%);
+  isolation: isolate;
+}
+
+.site-header::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 30px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--paper) 34%, transparent), transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .site-header {
+    background: rgb(17 17 15 / 68%);
+  }
+
+  .site-header::after {
+    background: linear-gradient(to bottom, rgb(17 17 15 / 34%), transparent);
+  }
+}
+
+.project-featured:hover p {
+  color: var(--ink);
+  opacity: .72;
+}
+
+.about-section h2 {
+  line-height: 1.02;
+}
+
+.project-deeptutor {
+  grid-column: 1 / -1;
+  min-height: 360px;
+}
+
+@media (max-width: 760px) {
+  .project-deeptutor {
+    grid-column: auto;
+    min-height: 310px;
+  }
+}
